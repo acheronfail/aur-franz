@@ -21,10 +21,12 @@ depends=($_electron)
 makedepends=(expac git nvm python)
 source=("git+https://github.com/meetfranz/$pkgname#tag=v$pkgver"
         franz.desktop
-        franz.sh.in)
+        franz.sh.in
+        disable-prompt.patch)
 sha512sums=('SKIP'
             '049c4bf2e0f362f892e8eef28dd18a6c321251c686a9c9e49e4abfb778057de2fc68b95b4ff7bb8030a828a48b58554a56b810aba078c220cb01d5837083992e'
-            '7ccf058421b173830493f35417d204e3a735fc20f801283dad3f658abeb484f6244bc535634c2f02ab2cb8e35a0e1a92dd3d06be5943e121ddccbbee7ad74b48')
+            '7ccf058421b173830493f35417d204e3a735fc20f801283dad3f658abeb484f6244bc535634c2f02ab2cb8e35a0e1a92dd3d06be5943e121ddccbbee7ad74b48'
+            'a0c83c33ba9544fb9a2c7bb8a8c1b3200e3377fb3a97848c031da53368520ab9a41e4ff2c37e6e7d86944dbb8d7068cf6330c00caca2c494ff8de6a0c78bd1d7')
 
 # Helper function for setting up nvm nicely.
 # Found here: https://wiki.archlinux.org/title/Node.js_package_guidelines#Using_nvm
@@ -60,6 +62,10 @@ prepare() {
   # Prevent Franz from being launched in development mode
   # This changes all the occurences where 'isDevMode' is set to a value.
   grep -lr 'isDevMode =' src | xargs sed -E 's|^(.*isDevMode =) .*$|\1 false|' -i
+
+  # Apply patches
+  echo "--> Applying patches"
+  git apply --ignore-whitespace --recount ../../disable-prompt.patch
 
   # Setup nvm
   _ensure_nvm_setup

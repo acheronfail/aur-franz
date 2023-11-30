@@ -1,0 +1,12 @@
+diff --git a/src/features/delayApp/index.js b/src/features/delayApp/index.js
+index fff815fb..1b2c9d3b 100644
+--- a/src/features/delayApp/index.js
++++ b/src/features/delayApp/index.js
+@@ -63,6 +63,7 @@ export default function init(stores) {
+       && !stores.user.data.isPremium
+     ),
+     (isEnabled) => {
++      isEnabled = false;
+       if (isEnabled) {
+         debug('Enabling `delayApp` feature');
+ 
